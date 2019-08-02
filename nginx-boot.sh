@@ -17,10 +17,8 @@ export CACHE_PUBLIC=${CACHE_PUBLIC:-ico|jpg|jpeg|png|gif|svg|js|jsx|css|less|swf
 export CACHE_PUBLIC_EXPIRATION=${CACHE_PUBLIC_EXPIRATION:-1y}
 
 if [ "$TRAILING_SLASH" = false ]; then
-  REWRITE_RULE="rewrite ^(.+)/+\$ \$1 permanent"
   TRY_FILES="try_files \$uri \$uri/index.html =404"
 else
-  REWRITE_RULE="rewrite ^([^.]*[^/])\$ \$1/ permanent"
   TRY_FILES="try_files \$uri \$uri/ \$uri/index.html =404"
 fi
 
@@ -89,8 +87,6 @@ http {
       add_header Cache-Control "public";
       expires +$CACHE_PUBLIC_EXPIRATION;
     }
-
-    $REWRITE_RULE;
 
     $TRY_FILES;
 
